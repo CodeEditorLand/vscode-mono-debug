@@ -1,25 +1,13 @@
 {
-  "name": "mono-debug",
-  "displayName": "Mono Debug",
-  "version": "0.16.3",
-  "private": true,
-  "description": "Visual Studio Code debugger extension for Mono",
-  "bugs": {
-    "url": "https://github.com/microsoft/vscode-mono-debug/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/microsoft/vscode-mono-debug.git"
-  },
-  "license": "MIT",
+  "activationEvents": [
+    "onCommand:extension.mono-debug.configureExceptions",
+    "onCommand:extension.mono-debug.startSession"
+  ],
   "author": {
     "name": "Microsoft Corporation"
   },
-  "publisher": "ms-vscode",
-  "main": "./out/extension",
-  "scripts": {
-    "compile": "make build",
-    "watch": "make watch"
+  "bugs": {
+    "url": "https://github.com/microsoft/vscode-mono-debug/issues"
   },
   "contributes": {
     "breakpoints": [
@@ -200,24 +188,36 @@
       }
     ]
   },
-  "activationEvents": [
-    "onCommand:extension.mono-debug.configureExceptions",
-    "onCommand:extension.mono-debug.startSession"
-  ],
   "dependencies": {
-    "vscode-debugprotocol": "^1.42.0",
-    "vscode-nls": "^5.0.0"
+    "vscode-debugprotocol": "1.42.0",
+    "vscode-nls": "5.0.0"
   },
+  "description": "Visual Studio Code debugger extension for Mono",
   "devDependencies": {
-    "@types/mocha": "^8.0.3",
-    "@types/node": "^14.11.5",
-    "@types/vscode": "^1.32.0",
-    "mocha": "^10.1.0",
-    "typescript": "^4.0.3",
-    "vsce": "^2.10.0",
-    "vscode-debugadapter-testsupport": "^1.42.0",
-    "vscode-nls-dev": "^3.3.2",
-    "vscode-test": "^1.4.0"
+    "@types/mocha": "8.0.3",
+    "@types/node": "14.11.5",
+    "@types/vscode": "1.32.0",
+    "mocha": "10.1.0",
+    "typescript": "4.0.3",
+    "vsce": "2.10.0",
+    "vscode-debugadapter-testsupport": "1.42.0",
+    "vscode-nls-dev": "3.3.2",
+    "vscode-test": "1.4.0"
   },
-  "icon": "images/mono-debug-icon.png"
+  "displayName": "Mono Debug",
+  "icon": "images/mono-debug-icon.png",
+  "license": "MIT",
+  "main": "./out/extension",
+  "name": "mono-debug",
+  "private": true,
+  "publisher": "ms-vscode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/vscode-mono-debug.git"
+  },
+  "scripts": {
+    "compile": "make build",
+    "watch": "make watch"
+  },
+  "version": "0.16.3"
 }
