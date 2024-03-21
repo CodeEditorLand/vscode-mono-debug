@@ -218,7 +218,7 @@
 		"@types/vscode": "1.87.0",
 		"mocha": "10.3.0",
 		"typescript": "5.4.2",
-		"typescript-esbuild": "latest",
+		"typescript-esbuild": "0.4.5",
 		"vsce": "2.10.0",
 		"vscode-debugadapter-testsupport": "1.42.0",
 		"vscode-nls-dev": "4.0.4",
