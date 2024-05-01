@@ -1,32 +1,15 @@
 {
-	"name": "mono-debug",
-	"displayName": "Mono Debug",
-	"version": "0.0.1",
-	"private": false,
-	"description": "Visual Studio Code debugger extension for Mono",
-	"keywords": [
-		"land"
+	"activationEvents": [
+		"onCommand:extension.mono-debug.configureExceptions",
+		"onCommand:extension.mono-debug.startSession"
 	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandMonoDebug#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandMonoDebug/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandMonoDebug.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "🌆 — Land —",
 		"email": "Land@PlayForm.Cloud",
+		"name": "🌆 — Land —",
 		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
-	"type": "module",
-	"main": "./out/extension",
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"compile": "make build",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandMonoDebug/issues"
 	},
 	"contributes": {
 		"breakpoints": [
@@ -207,18 +190,35 @@
 			}
 		]
 	},
-	"activationEvents": [
-		"onCommand:extension.mono-debug.configureExceptions",
-		"onCommand:extension.mono-debug.startSession"
-	],
 	"dependencies": {},
+	"description": "Visual Studio Code debugger extension for Mono",
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
 		"@types/node": "20.12.7"
 	},
+	"displayName": "Mono Debug",
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandMonoDebug#readme",
+	"icon": "images/mono-debug-icon.png",
+	"keywords": [
+		"land"
+	],
+	"license": "SEE LICENSE IN LICENSE",
+	"main": "./out/extension",
+	"name": "mono-debug",
+	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"icon": "images/mono-debug-icon.png"
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandMonoDebug.git"
+	},
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"compile": "make build",
+		"prepublishOnly": "Build 'Source/**/*.ts'"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
