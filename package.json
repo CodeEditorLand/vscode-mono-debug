@@ -193,7 +193,7 @@
 	],
 	"dependencies": {},
 	"devDependencies": {
-		"@playform/build": "0.0.8",
+		"@playform/build": "0.0.9",
 		"@types/node": "20.12.12"
 	},
 	"icon": "images/mono-debug-icon.png"
