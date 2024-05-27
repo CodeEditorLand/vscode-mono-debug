@@ -4,9 +4,7 @@
 	"description": "Visual Studio Code debugger extension for Mono",
 	"main": "./out/extension",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"compile": "make build",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
+		"compile": "make build"
 	},
 	"contributes": {
 		"breakpoints": [
@@ -193,8 +191,7 @@
 	],
 	"dependencies": {},
 	"devDependencies": {
-		"@playform/build": "0.0.9",
-		"@types/node": "20.12.12"
+		"@types/node": "^14.11.5"
 	},
 	"icon": "images/mono-debug-icon.png"
 }

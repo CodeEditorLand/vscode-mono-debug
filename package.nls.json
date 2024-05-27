@@ -12,6 +12,7 @@
 	"breakMode.always": "breaks when exception handled or unhandled",
 	"breakMode.unhandled": "breaks when exception unhandled",
 
+
 	"mono.launch.config.name": "Launch",
 	"mono.attach.config.name": "Attach",
 
