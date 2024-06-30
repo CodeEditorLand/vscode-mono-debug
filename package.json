@@ -1,8 +1,11 @@
 {
-	"activationEvents": [
-		"onCommand:extension.mono-debug.configureExceptions",
-		"onCommand:extension.mono-debug.startSession"
-	],
+	"name": "mono-debug",
+	"displayName": "Mono Debug",
+	"description": "Visual Studio Code debugger extension for Mono",
+	"main": "./out/extension",
+	"scripts": {
+		"compile": "make build"
+	},
 	"contributes": {
 		"breakpoints": [
 			{
@@ -182,16 +185,13 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onCommand:extension.mono-debug.configureExceptions",
+		"onCommand:extension.mono-debug.startSession"
+	],
 	"dependencies": {},
-	"description": "Visual Studio Code debugger extension for Mono",
 	"devDependencies": {
 		"@types/node": "20.14.9"
 	},
-	"displayName": "Mono Debug",
-	"icon": "images/mono-debug-icon.png",
-	"main": "./out/extension",
-	"name": "mono-debug",
-	"scripts": {
-		"compile": "make build"
-	}
+	"icon": "images/mono-debug-icon.png"
 }
