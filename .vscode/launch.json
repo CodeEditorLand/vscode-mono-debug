@@ -1,0 +1,49 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "extensionHost",
+			"request": "launch",
+			"name": "Extension",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}"
+			],
+			"stopOnEntry": false,
+			"outFiles": [
+				"${workspaceRoot}/out/**/*.js"
+			]
+		},
+		{
+			"type": "mono",
+			"request": "launch",
+			"name": "Server",
+			"program": "${workspaceRoot}/bin/Debug/mono-debug.exe",
+			"args": [ "--server=4711" ]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Tests",
+			"cwd": "${workspaceRoot}",
+			"program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+			"args": [
+				"-u", "tdd",
+				"--timeout", "999999",
+				"--colors",
+				"./out/tests"
+			],
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/out/tests/**/*.js" ]
+		}
+	],
+	"compounds": [
+		{
+			"name": "Extension + Server",
+			"configurations": [ "Extension", "Server" ]
+		}
+	]
+}
