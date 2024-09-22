@@ -1,6 +1,7 @@
 [submodule "external/debugger-libs"]
-	path = external/debugger-libs
-	url = https://github.com/mono/debugger-libs.git
+path = external/debugger-libs
+url = https://github.com/CodeEditorLand/debugger-libs.git
+
 [submodule "external/nrefactory"]
-	path = external/nrefactory
-	url = https://github.com/xamarin/NRefactory.git
+path = external/nrefactory
+url = https://github.com/CodeEditorLand/NRefactory.git
