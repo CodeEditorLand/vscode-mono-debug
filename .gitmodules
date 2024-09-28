@@ -1,7 +1,7 @@
 [submodule "external/debugger-libs"]
 path = external/debugger-libs
-url = https://github.com/CodeEditorLand/debugger-libs.git
+url = ssh://git@github.com/CodeEditorLand/debugger-libs.git
 
 [submodule "external/nrefactory"]
 path = external/nrefactory
-url = https://github.com/CodeEditorLand/NRefactory.git
+url = ssh://git@github.com/CodeEditorLand/NRefactory.git
