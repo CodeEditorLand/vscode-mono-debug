@@ -185,7 +185,7 @@
 	"dependencies": {},
 	"description": "Visual Studio Code debugger extension for Mono",
 	"devDependencies": {
-		"@types/node": "22.7.4"
+		"@types/node": "22.7.5"
 	},
 	"displayName": "Mono Debug",
 	"icon": "images/mono-debug-icon.png",
