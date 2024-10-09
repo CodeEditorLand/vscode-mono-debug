@@ -2,19 +2,29 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-'use strict';
+"use strict";
 
-import * as vscode from 'vscode';
-import * as nls from 'vscode-nls';
-import { DebugProtocol } from 'vscode-debugprotocol';
+import * as vscode from "vscode";
+import { DebugProtocol } from "vscode-debugprotocol";
+import * as nls from "vscode-nls";
 
 const localize = nls.config()();
 
-const configuration = vscode.workspace.getConfiguration('mono-debug');
+const configuration = vscode.workspace.getConfiguration("mono-debug");
 
 export function activate(context: vscode.ExtensionContext) {
-	context.subscriptions.push(vscode.commands.registerCommand('extension.mono-debug.configureExceptions', () => configureExceptions()));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.mono-debug.startSession', config => startSession(config)));
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			"extension.mono-debug.configureExceptions",
+			() => configureExceptions(),
+		),
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			"extension.mono-debug.startSession",
+			(config) => startSession(config),
+		),
+	);
 }
 
 export function deactivate() {
@@ -24,10 +34,12 @@ export function deactivate() {
 //----- configureExceptions ---------------------------------------------------------------------------------------------------
 
 // we store the exception configuration in the workspace or user settings as
-type ExceptionConfigurations = { [exception: string]: DebugProtocol.ExceptionBreakMode; };
+type ExceptionConfigurations = {
+	[exception: string]: DebugProtocol.ExceptionBreakMode;
+};
 
 // if the user has not configured anything, we populate the exception configurationwith these defaults
-const DEFAULT_EXCEPTIONS : ExceptionConfigurations = {
+const DEFAULT_EXCEPTIONS: ExceptionConfigurations = {
 	"System.Exception": "never",
 	"System.SystemException": "never",
 	"System.ArithmeticException": "never",
@@ -39,7 +51,7 @@ const DEFAULT_EXCEPTIONS : ExceptionConfigurations = {
 	"System.OutOfMemoryException": "never",
 	"System.OverflowException": "never",
 	"System.StackOverflowException": "never",
-	"System.TypeInitializationException": "never"
+	"System.TypeInitializationException": "never",
 };
 
 class BreakOptionItem implements vscode.QuickPickItem {
@@ -49,14 +61,16 @@ class BreakOptionItem implements vscode.QuickPickItem {
 }
 
 // the possible exception options converted into QuickPickItem
-const OPTIONS = [ 'never', 'always', 'unhandled' ].map<BreakOptionItem>((bm: string) : BreakOptionItem => {
-	const breakMode = <DebugProtocol.ExceptionBreakMode>bm;
-	return {
-		label: translate(breakMode),
-		description: '',
-		breakMode: breakMode
-	}
-});
+const OPTIONS = ["never", "always", "unhandled"].map<BreakOptionItem>(
+	(bm: string): BreakOptionItem => {
+		const breakMode = <DebugProtocol.ExceptionBreakMode>bm;
+		return {
+			label: translate(breakMode),
+			description: "",
+			breakMode: breakMode,
+		};
+	},
+);
 
 class ExceptionItem implements vscode.QuickPickItem {
 	label!: string;
@@ -66,35 +80,33 @@ class ExceptionItem implements vscode.QuickPickItem {
 
 function translate(mode: DebugProtocol.ExceptionBreakMode): string {
 	switch (mode) {
-		case 'never':
-			return localize('breakmode.never', "Never break");
-		case 'always':
-			return localize('breakmode.always', "Always break");
-		case 'unhandled':
-			return localize('breakmode.unhandled', "Break when unhandled");
+		case "never":
+			return localize("breakmode.never", "Never break");
+		case "always":
+			return localize("breakmode.always", "Always break");
+		case "unhandled":
+			return localize("breakmode.unhandled", "Break when unhandled");
 		default:
 			return mode;
 	}
 }
 
-function getModel() : ExceptionConfigurations {
-
+function getModel(): ExceptionConfigurations {
 	let model = DEFAULT_EXCEPTIONS;
 	if (configuration) {
-		const exceptionOptions = configuration.get('exceptionOptions');
+		const exceptionOptions = configuration.get("exceptionOptions");
 		if (exceptionOptions) {
-			model = <ExceptionConfigurations> exceptionOptions;
+			model = <ExceptionConfigurations>exceptionOptions;
 		}
 	}
 	return model;
 }
 
-function configureExceptions() : void {
-
+function configureExceptions(): void {
 	const options: vscode.QuickPickOptions = {
-		placeHolder: localize('select.exception', "First Select Exception"),
+		placeHolder: localize("select.exception", "First Select Exception"),
 		matchOnDescription: true,
-		matchOnDetail: true
+		matchOnDetail: true,
 	};
 
 	const exceptionItems: vscode.QuickPickItem[] = [];
@@ -102,50 +114,59 @@ function configureExceptions() : void {
 	for (const exception in model) {
 		exceptionItems.push({
 			label: exception,
-			description: model[exception] !== 'never' ? `⚡ ${translate(model[exception])}` : ''
+			description:
+				model[exception] !== "never"
+					? `⚡ ${translate(model[exception])}`
+					: "",
 		});
 	}
 
-	vscode.window.showQuickPick(exceptionItems, options).then(exceptionItem => {
+	vscode.window
+		.showQuickPick(exceptionItems, options)
+		.then((exceptionItem) => {
+			if (exceptionItem) {
+				const options: vscode.QuickPickOptions = {
+					placeHolder: localize(
+						"select.break.option",
+						"Then Select Break Option",
+					),
+					matchOnDescription: true,
+					matchOnDetail: true,
+				};
 
-		if (exceptionItem) {
-
-			const options: vscode.QuickPickOptions = {
-				placeHolder: localize('select.break.option', "Then Select Break Option"),
-				matchOnDescription: true,
-				matchOnDetail: true
-			};
-
-			vscode.window.showQuickPick(OPTIONS, options).then(item => {
-				if (item) {
-					model[exceptionItem.label] = item.breakMode;
-					if (configuration) {
-						configuration.update('exceptionOptions', model);
+				vscode.window.showQuickPick(OPTIONS, options).then((item) => {
+					if (item) {
+						model[exceptionItem.label] = item.breakMode;
+						if (configuration) {
+							configuration.update("exceptionOptions", model);
+						}
+						setExceptionBreakpoints(model);
 					}
-					setExceptionBreakpoints(model);
-				}
-			});
-		}
-	});
+				});
+			}
+		});
 }
 
-function setExceptionBreakpoints(model: ExceptionConfigurations) : void {
-
+function setExceptionBreakpoints(model: ExceptionConfigurations): void {
 	const args: DebugProtocol.SetExceptionBreakpointsArguments = {
 		filters: [],
-		exceptionOptions: convertToExceptionOptions(model)
-	}
+		exceptionOptions: convertToExceptionOptions(model),
+	};
 	if (vscode.debug.activeDebugSession)
-		vscode.debug.activeDebugSession.customRequest('setExceptionBreakpoints', args);
+		vscode.debug.activeDebugSession.customRequest(
+			"setExceptionBreakpoints",
+			args,
+		);
 }
 
-function convertToExceptionOptions(model: ExceptionConfigurations) : DebugProtocol.ExceptionOptions[] {
-
+function convertToExceptionOptions(
+	model: ExceptionConfigurations,
+): DebugProtocol.ExceptionOptions[] {
 	const exceptionItems: DebugProtocol.ExceptionOptions[] = [];
 	for (const exception in model) {
 		exceptionItems.push({
-			path: [ { names: [ exception ] } ],
-			breakMode: model[exception]
+			path: [{ names: [exception] }],
+			breakMode: model[exception],
 		});
 	}
 	return exceptionItems;
@@ -157,19 +178,18 @@ function convertToExceptionOptions(model: ExceptionConfigurations) : DebugProtoc
  * The result type of the startSession command.
  */
 class StartSessionResult {
-	status!: 'ok' | 'initialConfiguration' | 'saveConfiguration';
-	content?: string;	// launch.json content for 'save'
+	status!: "ok" | "initialConfiguration" | "saveConfiguration";
+	content?: string; // launch.json content for 'save'
 }
 
-function startSession(config: any) : StartSessionResult {
-
+function startSession(config: any): StartSessionResult {
 	if (config && !config.__exceptionOptions) {
 		config.__exceptionOptions = convertToExceptionOptions(getModel());
 	}
 
-	vscode.commands.executeCommand('vscode.startDebug', config);
+	vscode.commands.executeCommand("vscode.startDebug", config);
 
 	return {
-		status: 'ok'
+		status: "ok",
 	};
 }
