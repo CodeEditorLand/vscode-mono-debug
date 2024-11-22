@@ -57,6 +57,7 @@ const DEFAULT_EXCEPTIONS: ExceptionConfigurations = {
 class BreakOptionItem implements vscode.QuickPickItem {
 	label!: string;
 	description!: string;
+
 	breakMode!: DebugProtocol.ExceptionBreakMode;
 }
 
@@ -64,6 +65,7 @@ class BreakOptionItem implements vscode.QuickPickItem {
 const OPTIONS = ["never", "always", "unhandled"].map<BreakOptionItem>(
 	(bm: string): BreakOptionItem => {
 		const breakMode = <DebugProtocol.ExceptionBreakMode>bm;
+
 		return {
 			label: translate(breakMode),
 			description: "",
@@ -82,10 +84,13 @@ function translate(mode: DebugProtocol.ExceptionBreakMode): string {
 	switch (mode) {
 		case "never":
 			return localize("breakmode.never", "Never break");
+
 		case "always":
 			return localize("breakmode.always", "Always break");
+
 		case "unhandled":
 			return localize("breakmode.unhandled", "Break when unhandled");
+
 		default:
 			return mode;
 	}
@@ -93,8 +98,10 @@ function translate(mode: DebugProtocol.ExceptionBreakMode): string {
 
 function getModel(): ExceptionConfigurations {
 	let model = DEFAULT_EXCEPTIONS;
+
 	if (configuration) {
 		const exceptionOptions = configuration.get("exceptionOptions");
+
 		if (exceptionOptions) {
 			model = <ExceptionConfigurations>exceptionOptions;
 		}
@@ -110,7 +117,9 @@ function configureExceptions(): void {
 	};
 
 	const exceptionItems: vscode.QuickPickItem[] = [];
+
 	const model = getModel();
+
 	for (const exception in model) {
 		exceptionItems.push({
 			label: exception,
@@ -137,6 +146,7 @@ function configureExceptions(): void {
 				vscode.window.showQuickPick(OPTIONS, options).then((item) => {
 					if (item) {
 						model[exceptionItem.label] = item.breakMode;
+
 						if (configuration) {
 							configuration.update("exceptionOptions", model);
 						}
@@ -152,6 +162,7 @@ function setExceptionBreakpoints(model: ExceptionConfigurations): void {
 		filters: [],
 		exceptionOptions: convertToExceptionOptions(model),
 	};
+
 	if (vscode.debug.activeDebugSession)
 		vscode.debug.activeDebugSession.customRequest(
 			"setExceptionBreakpoints",
@@ -163,6 +174,7 @@ function convertToExceptionOptions(
 	model: ExceptionConfigurations,
 ): DebugProtocol.ExceptionOptions[] {
 	const exceptionItems: DebugProtocol.ExceptionOptions[] = [];
+
 	for (const exception in model) {
 		exceptionItems.push({
 			path: [{ names: [exception] }],
