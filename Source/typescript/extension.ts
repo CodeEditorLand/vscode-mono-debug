@@ -19,6 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 			() => configureExceptions(),
 		),
 	);
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			"extension.mono-debug.startSession",
@@ -56,6 +57,7 @@ const DEFAULT_EXCEPTIONS: ExceptionConfigurations = {
 
 class BreakOptionItem implements vscode.QuickPickItem {
 	label!: string;
+
 	description!: string;
 
 	breakMode!: DebugProtocol.ExceptionBreakMode;
@@ -76,7 +78,9 @@ const OPTIONS = ["never", "always", "unhandled"].map<BreakOptionItem>(
 
 class ExceptionItem implements vscode.QuickPickItem {
 	label!: string;
+
 	description!: string;
+
 	model!: DebugProtocol.ExceptionOptions;
 }
 
@@ -106,6 +110,7 @@ function getModel(): ExceptionConfigurations {
 			model = <ExceptionConfigurations>exceptionOptions;
 		}
 	}
+
 	return model;
 }
 
@@ -150,6 +155,7 @@ function configureExceptions(): void {
 						if (configuration) {
 							configuration.update("exceptionOptions", model);
 						}
+
 						setExceptionBreakpoints(model);
 					}
 				});
@@ -181,6 +187,7 @@ function convertToExceptionOptions(
 			breakMode: model[exception],
 		});
 	}
+
 	return exceptionItems;
 }
 
@@ -191,6 +198,7 @@ function convertToExceptionOptions(
  */
 class StartSessionResult {
 	status!: "ok" | "initialConfiguration" | "saveConfiguration";
+
 	content?: string; // launch.json content for 'save'
 }
 
